@@ -1,0 +1,9 @@
+
+REFERENCIAS
+
+https://unipython.com/juego-python-ahorcado/
+https://www.europeanvalley.es/noticias/encriptar-mensajes-con-python/
+https://www.lawebdelprogramador.com/foros/Python/1521039-Juego-Memory.html
+https://programacion.net/articulo/como_trabajar_con_datos_json_utilizando_python_1403
+https://www.analyticslane.com/2018/07/16/archivos-json-con-python/
+

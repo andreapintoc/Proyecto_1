@@ -1,0 +1,30 @@
+{
+    "usuarios": [
+        {
+            "nombre": "andrea",
+            "usuario": "andreapintoc",
+            "edad": 18,
+            "clave": "222222222",
+            "avatar": 1,
+            "record": 0
+        },
+        {
+            "nombre": "andrea",
+            "edad": "20",
+            "usuario": "pintoandrea",
+            "clave": "22222222",
+            "avatar": "2",
+            "record": 0,
+            "partidas": 0
+        },
+        {
+            "nombre": "andrea",
+            "edad": "11",
+            "usuario": "andreaccc",
+            "clave": "22222222",
+            "avatar": "3",
+            "record": 0,
+            "partidas": 5
+        }
+    ]
+}
