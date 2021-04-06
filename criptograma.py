@@ -1,7 +1,7 @@
 import random
 abc = 'abcdefghijklmnopqrstuvwxyz'
 
-def desplazamiento2():
+def desplazamiento2(mochila):
     print('''
     ENCUENTRA EL MENSAJE ENCRIPTADO
     ABECEDARIO : ABCDEFGHIJKLMNÑOPQRSTUVWXYZ
@@ -25,13 +25,14 @@ def desplazamiento2():
     respuesta =(str(input('Indique la frase cifrada: ')))
     if respuesta != 'si te graduas pisas el saman':
         print('Incorrecto, pierdes una vida')
-        vidas = vidas - 1
+        mochila["vidas"] -= 1
+        print(f'te quedan {mochila["vidas"]} vidas')
     else:
         print('Haz encontrado el mensaje secreto')
         premio_gavetero = 'mensaje'
-        mochila.append(premio_gavetero)
+        mochila['premios'].append(premio_gavetero)
 
-def desplazamiento4():
+def desplazamiento4(mochila):
     print('''
     ENCUENTRA EL MENSAJE ENCRIPTADO
     ABECEDARIO : ABCDEFGHIJKLMNÑOPQRSTUVWXYZ
@@ -55,14 +56,14 @@ def desplazamiento4():
     respuesta =(str(input('Indique la frase cifrada: ')))
     if respuesta != 'si te graduas pisas el saman':
         print('Incorrecto, pierdes una vida')
-        vidas = vidas - 1
-        print(f'te quedan {vidas} vidas')
+        mochila["vidas"] -= 1
+        print(f'te quedan {mochila["vidas"]} vidas')
     else:
         print('Haz encontrado el mensaje secreto')
         premio_gavetero = 'mensaje'
-        mochila.append(premio_gavetero)
+        mochila['premios'].append(premio_gavetero)
 
-def desplazamiento5():
+def desplazamiento5(mochila):
     print('''
     ENCUENTRA EL MENSAJE ENCRIPTADO
     ABECEDARIO : ABCDEFGHIJKLMNÑOPQRSTUVWXYZ
@@ -86,14 +87,14 @@ def desplazamiento5():
     respuesta =(str(input('Indique la frase cifrada: ')))
     if respuesta != 'si te graduas pisas el saman':
         print('Incorrecto, pierdes una vida')
-        vidas = vidas - 1
-        print(f'te quedan {vidas} vidas')
+        mochila["vidas"] -= 1
+        print(f'te quedan {mochila["vidas"]} vidas')
     else:
         print('Haz encontrado el mensaje secreto')
         premio_gavetero = 'mensaje'
-        mochila.append(premio_gavetero)
+        mochila['premios'].append(premio_gavetero)
 
-def criptograma():
+def criptograma(mochila):
     print('''
       ¡Estas en eel mueble de gavetas!
       Para obtener el mensaje,
@@ -116,8 +117,9 @@ def criptograma():
     elegirr.append(elegir)
     print(elegirr)
     if elegirr == 1:
-         desplazamiento2()
+         desplazamiento2(mochila)
     elif elegirr == 2:
-         desplazamiento4()
+         desplazamiento4(mochila)
     else:
-         desplazamiento5()
+         desplazamiento5(mochila)
+

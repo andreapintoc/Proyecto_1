@@ -1,5 +1,5 @@
 import random
-def logica1():
+def logica1(mochila):
     #⏰ vale 3 🍌 vale 4 🧡 vale 15
     print('🧡+🧡+🧡=45 \n 🍌+🍌+🧡=23 \n 🍌+⏰+⏰=10 \n ⏰+🍌+🍌x🧡=?')
     respuesta1 = input('cual sera el valor? ')
@@ -17,7 +17,7 @@ def logica2():
     else:
         print('Respuesta incorrecta, pierdes una vida')
 
-def logica():
+def logica(mochila):
     print('''
     ¡Estas en en Saman!
     Para obtener el disco duro,
@@ -41,6 +41,6 @@ def logica():
     elegirr= str(elegirr)
     print(elegirr)
     if elegirr == '1':
-        logica1()
+        logica1(mochila)
     else:
-        logica2()
+        logica2(mochila)

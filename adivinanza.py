@@ -3,7 +3,7 @@ import random
 lista = [1,2,3]
 
 
-def adivinanza1():
+def adivinanza1(mochila):
    pistas1 = ['Lo usas cuando se va la luz', 'Lo puedes prender con un encendedor', 'Es de cera']
    pistas2 = ["lo usas cuando hay luz", "gracias a estar encendido puedes leer", "se coloca en las lámparas"]
    pistas3 = ["fruta", "POTASIO", "parecido al plátano"]
@@ -38,14 +38,14 @@ def adivinanza1():
        ''') 
    elif pregunta_uno != "una vela" or pregunta_uno != "vela" or pregunta_uno != "Vela" or pregunta_uno != "la Vela" or pregunta_uno or pregunta_uno !="La Vela" :  
        print('Respuesta incorrecta, pierdes una vida')
-       vidas = vidas - 1/2
-       print(' Te quedan ' + str(vidas) + ' vidas')
+       mochila['vidas'] = mochila['vidas'] - 1/2
+       print(' Te quedan ' + str(mochila['vidas'] ) + ' vidas')
     
    
    else:
        print('¡Buen trabajo!, Respuesta correcta, te has ganado la LLAVE')
        premio_compu2 = 'llave'
-       mochila.append(premio_compu2)
+       mochila['premios'].append(premio_compu2)
        
 #    if pregunta_uno == '0':
 #        print('Lo puedes prender con un encendedor')
@@ -75,7 +75,7 @@ def adivinanza1():
  
 
 
-def adivinanza2():
+def adivinanza2(mochila):
     pistas1 = ['Lo usas cuando se va la luz', 'Lo puedes prender con un encendedor', 'Es de cera']
     pistas2 = ["lo usas cuando hay luz", "gracias a estar encendido puedes leer", "se coloca en las lámparas"]
     pistas3 = ["fruta", "POTASIO", "parecido al plátano"]
@@ -109,16 +109,16 @@ def adivinanza2():
        ''') 
     elif pregunta_dos != "un bombillo" and pregunta_dos != "bombillo" and pregunta_dos != "El Bombillo" and pregunta_dos != "el bombillo" and pregunta_dos != "Bombillo":
        print('Respuesta incorrecta, pierdes una vida')
-       vidas = vidas - 1/2
-       print(' Te quedan ' + str(vidas) + ' vidas')
+       mochila['vidas'] = mochila['vidas'] - 1/2
+       print(' Te quedan ' + str(mochila['vidas'] ) + ' vidas')
     
     else:
        print('¡Buen trabajo!, Respuesta correcta, te has ganado la LLAVE')
        premio_compu2 = 'llave'
-       mochila.append(premio_compu2)
+       mochila['premios'].append(premio_compu2)
 
 
-def adivinanza3():
+def adivinanza3mochila():
     pistas1 = ['Lo usas cuando se va la luz', 'Lo puedes prender con un encendedor', 'Es de cera']
     pistas2 = ["lo usas cuando hay luz", "gracias a estar encendido puedes leer", "se coloca en las lámparas"]
     pistas3 = ["fruta", "POTASIO", "parecido al plátano"]
@@ -152,24 +152,24 @@ def adivinanza3():
         ''') 
     elif pregunta_tres != "un cambur" and pregunta_tres != "cambur" and pregunta_tres != "El Cambur" and pregunta_tres!= "Cambur" and pregunta_tres != "cámbur" and pregunta_tres != "Cámbur":
        print('Respuesta incorrecta, pierdes una vida')
-       vidas = vidas - 1/2
-       print(' Te quedan ' + str(vidas) + ' vidas')
+       mochila['vidas'] = mochila['vidas'] - 1/2
+       print(' Te quedan ' + str(mochila['vidas'] ) + ' vidas')
     
     else:
        print('¡Buen trabajo!, Respuesta correcta, te has ganado la LLAVE')
        premio_compu2 = 'llave'
-       mochila.append(premio_compu2)
+       mochila['premios'].append(premio_compu2)
 
 
-def adivinanzas():
+def adivinanzas(mochila):
    
    
    elegir = random.sample(lista,1)
 
    if elegir == 1:
-       adivinanza1()
+       adivinanza1(mochila)
    elif elegir == 2:
-       adivinanza3()
+       adivinanza3(mochila)
    else: 
-       adivinanza2()
+       adivinanza2(mochila)
 

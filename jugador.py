@@ -83,7 +83,7 @@ class Jugador:
         self.record = record 
         self.partidas = partidas
 
-        usuario = json.dumps(self.__dict__)
+        usuario = json.dumps(self.__dict__) #hacer diccionario
         usuario = json.loads(usuario)
         data = leer_data()
         data['usuarios'].append(usuario)
@@ -93,7 +93,7 @@ class Jugador:
         if registrado_menu.upper() == 'S':
             registro()
         
-    def guardar_partidas(self):
+    def guardar_partidas(self): #Cantidad de partidas que ha jugado
         data = leer_data()
         for u in data['usuarios']:
             if u['usuario'] == self.usuario:
@@ -101,7 +101,7 @@ class Jugador:
                 break 
         escribir_data(data)
 
-    def guardar_record(self, record):
+    def guardar_record(self, record): #funcion para huardar el record mas alto del jugador
         data = leer_data()
         for u in data['usuarios']:
             if u['usuario'] == self.usuario and u['record'] > record:
@@ -109,15 +109,28 @@ class Jugador:
                 break 
         escribir_data(data)
             
+def mejores_records():
+    records = []
+    datos = obtener_usuarios()
+    for u in datos:
+        records.append(u['record'])
+    return records
+                 
 
-def obtener_usuarios():
+def obtener_usuarios(): #obtener los usuarios
     datos = leer_data()
     return datos['usuarios']
 
-def obtener_jugador(usuario, usuarios=None):
+
+def obtener_jugador(usuario, usuarios=None): #obtener todos los datos del jugador
     if not usuarios:
         usuarios = obtener_usuarios()
     for jugador in usuarios:
         if jugador['usuario'] == usuario:
             return Jugador(jugador['nombre'], jugador['edad'], jugador['usuario'], jugador['clave'], jugador['avatar'], jugador['record'])
 
+def tiene_vidas(vidas): #para saber si tines vidas y continuar o salir de juego
+    if vidas <= 0:
+        print('Te quedaste sin vidas')
+        return False 
+    return True 

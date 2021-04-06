@@ -1,6 +1,6 @@
 from util import obtener_inventario
 from objetos import Objeto
-class Juego:
+class Juego: 
     def __init__(self, nombre, requerimiento, premio, reglas, preguntas, mensaje_requerimiento=None):
         self.nombre = nombre
         self.requerimiento = requerimiento
@@ -45,7 +45,7 @@ class Lugar:
         self.nombre = nombre
         self.objetos = objetos
                 
-    def cargar_objetos(self):
+    def cargar_objetos(self): #cargar los objetos del api
         lugares = obtener_inventario()
         for lugar in lugares:
             if lugar['name'] == self.nombre:
@@ -63,7 +63,7 @@ class Lugar:
                 self.objetos = objetos
                 break
 
-    def obtener_movimientos(self):
+    def obtener_movimientos(self): #crear menu para dirigirse a los objetos(juegos)
         movimientos = 'PRESIONA:\n'
         for i, o in enumerate(self.objetos):
             movimientos += f'{i+1}. Para ir al {o.nombre} ({o.posicion})\n'
@@ -71,13 +71,13 @@ class Lugar:
         return movimientos
 
 
-def crear_pregunta(objeto, dict_p):
+def crear_pregunta(objeto, dict_p): #Para crear pregunta segun el juego
     pregunta=None
     tipo_pista = ['pizarra', 'computadora 1', 'computadora 2', 'mueble de sentarse', 'mueble de libros', 'Banco 2', 'Papelera']
     if objeto == 'pizarra':
         pregunta = Pista( dict_p['clue_1'], dict_p['answer_1'], dict_p['answer_2'], dict_p['answer_3'], dict_p['clue_2'], dict_p['clue_3'])
     elif objeto == 'computadora 1' or objeto == 'computadora 2' or objeto == 'mueble de libros':
-        pregunta = Pista(dict_p['clue_1'], None, None, None, dict_p['clue_2'], dict_p['clue_3'], dict_p['question'], dict_p['answer'])
+        pregunta = Pista(dict_p['clue_1'], None, None, None, None, None, dict_p['question'], None)
     elif objeto == 'mueble de sentarse':
         pregunta = Pista(dict_p['clue_1'], None, None, None, None, None, dict_p['answer'])
     elif objeto == 'mueble de gabetas' :
@@ -85,9 +85,9 @@ def crear_pregunta(objeto, dict_p):
     elif objeto == 'Saman':
         pregunta = Pregunta(dict_p)
     elif objeto == 'Banco 1':
-        pregunta = Quiz(dict_p['question'], dict_p['correct_answer'], dict_p['answer_1'], dict_p['answer_2'],dict_p['answer_3'], dict_p['answer_4'], dict_p['clue_1'])
+        pregunta = Quiz(dict_p['question'], dict_p['correct_answer'], None, dict_p['answer_2'],dict_p['answer_3'], dict_p['answer_4'], dict_p['clue_1'])
     elif objeto == 'Banco 2':
-        pregunta = Pista(dict_p[clue_1], None, None, None, None, None, dict_p['question'])
+        pregunta = Pista(dict_p['clue_1'], None, None, None, None, None, dict_p['question'])
     elif objeto == 'puerta':
         pregunta = Pregunta(dict_p['question'], dict_p['answer'])
     elif objeto == 'Rack':

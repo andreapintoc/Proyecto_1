@@ -1,6 +1,6 @@
 import random
 lista = [1,2,3]
-def pregunta1():
+def pregunta1(mochila):
 #pregunta uno
     print('''
     ¿En qué fecha es el Aniversario de la Universidad Metropolitana?",
@@ -41,14 +41,17 @@ def pregunta1():
             print('Respuesta correcta, te haz ganado el LIBRO DE MATEMATICA')
         else:
             print('Respuesta incorrecta, pierdes una vida')
+            mochila['vidas'] -= 1/2
 
     elif respuesta_uno == '1':
         print('Respuesta correcta, te haz ganado el LIBRO DE MATEMATICA')
 
     else:
         print('Respuesta incorrecta, pierdes una vida')
+        mochila['vidas'] -= 1/2
+        print(f'Te quedan {mochila["vidas"]} vidas')
 
-def pregunta2():
+def pregunta2(mochila):
 # pregunta dos
     print('''
      ¿En qué año fue Fundada la Universidad Metropolitana?,
@@ -89,14 +92,17 @@ def pregunta2():
             print('Respuesta correcta, te haz ganado el LIBRO DE MATEMATICA')
         else:
             print('Respuesta incorrecta, pierdes una vida')
+            mochila['vidas'] -= 1/2
 
     elif respuesta_dos == '4':
         print('Respuesta correcta, te haz ganado el LIBRO DE MATEMATICA')
 
     else:
         print('Respuesta incorrecta, pierdes una vida')
+        mochila['vidas'] -= 1/2
+        print(f'Te quedan {mochila["vidas"]} vidas')
 
-def pregunta3():
+def pregunta3(mochila):
 #pregunta tres
     print('''
     ¿Quién fundó la Unimet?
@@ -137,15 +143,17 @@ def pregunta3():
             print('Respuesta correcta, te haz ganado el LIBRO DE MATEMATICA')
         else:
             print('Respuesta incorrecta, pierdes una vida')
+            mochila['vidas'] -= 1/2
         
     elif respuesta_tres == '3':
         print('Respuesta correcta, te haz ganado el LIBRO DE MATEMATICA')
     
     else:
         print('Respuesta incorrecta, pierdes una vida')
+        mochila['vidas'] -= 1/2
+        print(f'Te quedan {mochila["vidas"]} vidas')
     
-    
-def quizzi():
+def quizzi(mochila):
     print('''
     ¡te encuentas en el Banco 1
     Contesta estas preguntas en menos de un minutos para conseguir
@@ -166,8 +174,8 @@ def quizzi():
     elegir = random.sample(lista,1)
 
     if elegir == 1:
-        pregunta1()
+        pregunta1(mochila)
     elif elegir == 2:
-        pregunta2()
+        pregunta2(mochila)
     else: 
-        pregunta3()
+        pregunta3(mochila)

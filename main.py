@@ -1,25 +1,27 @@
-from util import leer_instrucciones
-from logica import *
-from criptograma import *
-from ahorcado import *
-from adivinanza import *
-from jugador import *
-from palabras import *
-from quizzi import *
-from python import *
-from booleana import *
-from juegos import Lugar
-#import sopa
-#from objetos import Objetos
-#objetos = objeto
-import imagenes
-import escoge_numero
-import time
-import booleana
-import os
-import json
+from memoria import * #juego
+from final import * #juego final
+from logica import * #juego
+from criptograma import * #juego
+from ahorcado import * #juego
+from adivinanza import * #juego
+from jugador import * #clase jugador, registro, obtener jugador , entre otras
+from palabras import * #juego
+from quizzi import * #juego
+from python import * #juego
+from booleana import * #juego
+from juegos import Lugar #clase paa definir el lugar desde el api
+from sopa import * #juego
+import imagenes #imagenes de los cuartos
+import instrucciones #instrucciones de juego
+import escoge_numero #juego
+import time #para el tiempo
+import os 
+import json #json
 
-mochila = []
+
+mochila = {
+    'premios':[],
+    'vidas': 0 }
 
 
 def empezar_juego(): #Iniciar sesion y elegir nivel de dificultad
@@ -29,7 +31,7 @@ def empezar_juego(): #Iniciar sesion y elegir nivel de dificultad
     usuarios = [u['usuario'] for u in jugadores]
     usuario_valido = False
     jugador = None
-    while not usuario_valido:
+    while not usuario_valido: #validacion si el usuario existe
         if usuario in usuarios:
             print('Usuario valido')
             jugador = obtener_jugador(usuario, jugadores)
@@ -39,7 +41,7 @@ def empezar_juego(): #Iniciar sesion y elegir nivel de dificultad
             main()
     clave = input('Intruzca la clave: ')
     clave_valida = False
-    while not clave_valida:
+    while not clave_valida: #validacion de la clave con el del usuario
         if jugador.clave == clave:
             print('Clave correcta')
             clave_valida = True
@@ -55,6 +57,17 @@ def empezar_juego(): #Iniciar sesion y elegir nivel de dificultad
             else:
                 clave = input('Intruzca la clave: ')
     jugador.guardar_partidas()
+
+    if jugador.avatar == 1:
+        jugador.avatar = 'Scharifker'
+    elif jugador.avatar == 2:
+        jugador.avatar = 'Eugenio Mendoza'
+    elif jugador.avatar == 3:
+        jugador.avatar = 'Pelusa'
+    elif jugador.avatar == 4:
+        jugador.avatar = 'Gandhi'
+    else:
+        jugador.avatar = 'Pepe'
                 
     print('Ingrese nivel de dificultad a jugar: ')
     nivel = input('''
@@ -70,7 +83,7 @@ def empezar_juego(): #Iniciar sesion y elegir nivel de dificultad
         3.Difícil: 1 vida y 2 pistas. 25 minutos
         ''')
     
-    if nivel == '1':
+    if nivel == '1': #cronometro tiempo 45
         tiempo_inicial = time.time()
         fin_juego = tiempo_inicial + (60*45)
         while time.time() < fin_juego:
@@ -79,7 +92,7 @@ def empezar_juego(): #Iniciar sesion y elegir nivel de dificultad
         main()
 
 
-    elif nivel == '2':
+    elif nivel == '2': #cronometro tiempo 35
         tiempo_inicial = time.time()
         fin_juego = tiempo_inicial + (60*35)
         while time.time() < fin_juego:
@@ -88,7 +101,7 @@ def empezar_juego(): #Iniciar sesion y elegir nivel de dificultad
         main()
 
        
-    else:
+    else: #cronometro tiempo 25 minutos
         tiempo_inicial = time.time()
         fin_juego = tiempo_inicial + (60*25)
         while time.time() < fin_juego:
@@ -97,9 +110,8 @@ def empezar_juego(): #Iniciar sesion y elegir nivel de dificultad
         main()
 
 def nivel_uno(jugador, tiempo_inicial): #Inicio del juego mas facil
-    vidas = 5
-    if vidas <= 0:
-        print('Te quedaste sin vidas')
+    mochila['vidas'] = 5
+    #primera narrativa
     print('''
       Hoy 5 de marzo de 2021, la Universidad sigue en cuarentena (esto no es novedad), 
      lo que sí es novedad es que se robaron un Disco Duro de la Universidad del cuarto
@@ -113,10 +125,10 @@ def nivel_uno(jugador, tiempo_inicial): #Inicio del juego mas facil
         empezar = input('¿Aceptas el reto? (PRESIONA ">" PARA CONTINUAR)' )
     print(f'¡EMPECEMOS¡')
 
-
+    #segunda narrativa
     print(imagenes.biblioteca) #plano de la biblioteca
-    print('''
-    Bienvenido ({jugador.avatar}), gracias por tu disposición a ayudarnos a resolver este inconveniente, 
+    print(f'''
+    Bienvenido {jugador.avatar}, gracias por tu disposición a ayudarnos a resolver este inconveniente, 
      te encuentras actualmente ubicado en la biblioteca, revisa el menú de opciones para ver qué
                                 acciones puedes realizar. 
            Recuerda que el tiempo corre más rápido que un trimestre en este reto.
@@ -126,7 +138,7 @@ def nivel_uno(jugador, tiempo_inicial): #Inicio del juego mas facil
     ¿A donde quieres dirigirte?:
     1. Si desea quedarse en la Biblioteca, PRESIONE 1
     2. Si desea ir al Rectorado, PRESIONE 2
-    3. Si desea ir al laboratorio, PRESIONE 3
+    3. Si desea ir a la Puerta, PRESIONE 3
     ''').upper()
 
     while dirigirse.upper() != '1' and dirigirse.upper() != '2' and dirigirse.upper() != '3':
@@ -134,20 +146,21 @@ def nivel_uno(jugador, tiempo_inicial): #Inicio del juego mas facil
     ¿A donde quieres dirigirte?:
     1. Si desea quedarse en la Biblioteca, PRESIONE 1
     2. Si desea ir al Rectorado, PRESIONE 2
-    3. Si desea ir al laboratorio, PRESIONE 3
+    3. Si desea ir a la Puerta, PRESIONE 3
     ''').upper()
      
     if dirigirse == '1':
-        biblioteca() #ir a la biblioteca
+        biblioteca(mochila) #ir a la biblioteca
     elif dirigirse == '2':
-        rectorado() #ir a plaza rectorado
+        rectorado(mochila) #ir a plaza rectorado
     else:
-        puerta() #ir a la puerta    
+        puerta(mochila) #ir a la puerta    
 
-def nivel_dos(Jugador): #Inicio del juego medio
-    vidas = 3
-    if vidas <= 3:
-        print('Te quedaste sin vidas')
+def nivel_dos(jugador, tiempo_inicial): #Inicio del juego medio
+    mochila['vidas'] = 3
+    #if vidas <= 3:
+    #    print('Te quedaste sin vidas')
+    # primera narrativa
     print('''
       Hoy 5 de marzo de 2021, la Universidad sigue en cuarentena (esto no es novedad), 
      lo que sí es novedad es que se robaron un Disco Duro de la Universidad del cuarto
@@ -161,8 +174,9 @@ def nivel_dos(Jugador): #Inicio del juego medio
         empezar = input('¿Aceptas el reto? (PRESIONA ">" PARA CONTINUAR)' )
     print(f'¡EMPECEMOS¡')
     print(imagenes.biblioteca) #plano de la biblioteca
-    print('''
-    Bienvenido ({avatar}), gracias por tu disposición a ayudarnos a resolver este inconveniente, 
+    #segunda narrativa
+    print(f'''
+    Bienvenido {jugador.avatar}, gracias por tu disposición a ayudarnos a resolver este inconveniente, 
      te encuentras actualmente ubicado en la biblioteca, revisa el menú de opciones para ver qué
                                 acciones puedes realizar. 
            Recuerda que el tiempo corre más rápido que un trimestre en este reto.
@@ -182,15 +196,16 @@ def nivel_dos(Jugador): #Inicio del juego medio
     3. Si desea ir al Puerta, PRESIONE 3
     ''').upper()
     if dirigirse == '1':
-        biblioteca() #ir a la biblioteca
+        biblioteca(mochila) #ir a la biblioteca
     elif dirigirse == '2':
-        rectorado() #ir a plaza rectorado
+        rectorado(mochila) #ir a plaza rectorado
     else:
-        puerta() #ir a la puerta    
+        puerta(mochila) #ir a la puerta    
  
 
-def nivel_tres(Jugador): #Inicio del juego dificil
-    vidas = 1
+def nivel_tres(jugador, tiempo_inicial): #Inicio del juego dificil
+    mochila['vidas'] = 1
+    #primera narrativa
     print('''
       Hoy 5 de marzo de 2021, la Universidad sigue en cuarentena (esto no es novedad), 
      lo que sí es novedad es que se robaron un Disco Duro de la Universidad del cuarto
@@ -206,8 +221,9 @@ def nivel_tres(Jugador): #Inicio del juego dificil
 
 
     print(imagenes.biblioteca) #plano de la biblioteca
-    print('''
-    Bienvenido (['avatar']), gracias por tu disposición a ayudarnos a resolver este inconveniente, 
+    #segunda narrativa
+    print(f'''
+    Bienvenido {jugador.avatar}, gracias por tu disposición a ayudarnos a resolver este inconveniente, 
      te encuentras actualmente ubicado en la biblioteca, revisa el menú de opciones para ver qué
                                 acciones puedes realizar. 
            Recuerda que el tiempo corre más rápido que un trimestre en este reto.
@@ -229,43 +245,54 @@ def nivel_tres(Jugador): #Inicio del juego dificil
     ''').upper()
      
     if dirigirse == '1':
-        biblioteca() #ir a la biblioteca
+        biblioteca(mochila) #ir a la biblioteca
     elif dirigirse == '2':
-        rectorado() #ir a plaza rectorado
+        rectorado(mochila) #ir a plaza rectorado
     else:
-        puerta() #ir a la puerta  
+        puerta(mochila) #ir a la puerta  
 
-def biblioteca():
+def biblioteca(mochila):
     print(imagenes.biblioteca)
     print('¡Estas en la biblioteca!')
-    biblioteca = Lugar('Biblioteca')
-    biblioteca.cargar_objetos()
-    movimientos = biblioteca.obtener_movimientos()
+    biblioteca_lugar = Lugar('Biblioteca') #definir lugar
+    biblioteca_lugar.cargar_objetos() #definir objetos
+    movimientos = biblioteca_lugar.obtener_movimientos() #definir el menu para que el usuario se mueva al sillon, estante o gavetas
     dirigirse = input(movimientos).upper()
     while dirigirse.upper() != '1' and dirigirse.upper() != '2' and dirigirse.upper() != '3' and dirigirse.upper() != '4':
-            dirigirse = input(movimientos).upper()
+        dirigirse = input(movimientos).upper()
     if dirigirse == '1':
-        requerimiento_sillon = 'libro de matematicas'
-        if requerimiento_sillon not in mochila:
-            print('Debes saber derivar')
-        pass #ir al sillon
-    elif dirigirse == '2':
         requerimiento_estante = False
         ahorcado() #ir al estante
+        biblioteca(mochila)
+
+    elif dirigirse == '2':
+        requerimiento_sillon = 'libro de matematicas'
+        if requerimiento_sillon not in mochila['premios']:
+            print('Debes saber derivar')
+            biblioteca(mochila)
+        pass #ir al sillon
+        biblioteca(mochila)
+
     elif dirigirse == '3':
-        mensaje_estante = biblioteca.objetos[2].juego.mensaje_requerimiento
+        mensaje_estante = biblioteca_lugar.objetos[2].juego.mensaje_requerimiento
         requerimiento_gavetero = 'llave'
-        if requerimiento_gavetero not in mochila:
+        if requerimiento_gavetero not in mochila['premios']:
             print(mensaje_estante)
-            biblioteca()
-        criptograma() #ir al gavetero
+            biblioteca(mochila)
+        criptograma(mochila) #ir al gavetero
+        biblioteca(mochila)
+        if tiene_vidas(mochila['vidas']):
+            biblioteca(mochila)
+        else:
+            print('perdiste')
+
     else:
         print(imagenes.plano)
         dirigirse = input('''
         ¿A donde quieres dirigirte?:
         1. Si desea ir a la Biblioteca, PRESIONE 1
         2. Si desea ir al Rectorado, PRESIONE 2
-        3. Si desea ir al laboratorio, PRESIONE 3
+        3. Si desea ir a la Puerta, PRESIONE 3
         ''').upper()
 
         while dirigirse.upper() != '1' and dirigirse.upper() != '2' and dirigirse.upper() != '3':
@@ -273,53 +300,49 @@ def biblioteca():
         ¿A donde quieres dirigirte?:
         1. Si desea ir a la Biblioteca, PRESIONE 1
         2. Si desea ir al Rectorado, PRESIONE 2
-        3. Si desea ir al laboratorio, PRESIONE 3
+        3. Si desea ir a la Puerta, PRESIONE 3
         ''').upper()
         if dirigirse == '1':
-            biblioteca() #ir a la biblioteca
+            biblioteca(mochila) #ir a la biblioteca
         elif dirigirse == '2':
-            rectorado() #ir a plaza rectorado
+            rectorado(mochila) #ir a plaza rectorado
         else:
-            puerta() #ir a la puerta 
+            puerta(mochila) #ir a la puerta 
 
-def rectorado():
+def rectorado(mochila):
     print(imagenes.saman)
-    print('¡Estas en el Saman!')
-    dirigirse = input('''
-    PRESIONA:
-    1. Para ir al banco 1 (izquierda).
-    2.Para ir al saman (centro)
-    3. Para ir al banco 2 (derecha)
-    4. Ir al plano
-    ''').upper()
+    print('¡Estas en Plaza Rectorado!')
+    p_rectorado = Lugar('Plaza Rectorado') #definir lugar
+    p_rectorado.cargar_objetos() #definir objetos
+    movimientos = p_rectorado.obtener_movimientos() #definir menu para dirigirse al saman, o a los bancos
+    dirigirse = input(movimientos).upper()
     while dirigirse.upper() != '1' and dirigirse.upper() != '2' and dirigirse.upper() != '3' and dirigirse.upper() != '4':
-            dirigirse = input('''
-            PRESIONA:
-            1. Para ir al banco 1 (izquierda).
-            2.Para ir al saman (centro)
-            3. Para ir al banco 2 (derecha)
-            4. Ir al plano
-            ''').upper()
+        dirigirse = input(movimientos).upper()
     if dirigirse == '1':
-        requerimiento_banco1 = False
-        quizzi() #ir al banco 1
-    elif dirigirse == '2':
-        requerimiento_saman = 'titulo universitario', 'mensaje'
-        if requerimiento_sillon not in mochila:
+        requerimiento_saman = 'titulo universitario', 'mensaje' #mensaje que indica que necesita eso para entrar
+        if requerimiento_saman not in mochila['premios']:
             print('pierdes una vida por pisar el samán 🥵')
-            vidas -= 1
-            rectorado()
-        logica() #ir al saman
+            vidas =- 1
+            rectorado(mochila)
+        logica(mochila) #ir al saman
+        rectorado(mochila)
+
+    elif dirigirse == '2':
+        requerimiento_banco1 = False
+        quizzi(mochila) #ir al banco 1
+        rectorado(mochila)
+
     elif dirigirse == '3':
         requerimiento_banco2 = False
-        banco_2() #ir al banco 2
+        memoria(mocila) #ir al banco 2
+        rectorado(mochila)
     else:
         print(imagenes.plano)
         dirigirse = input('''
         ¿A donde quieres dirigirte?:
         1. Si desea ir a la Biblioteca, PRESIONE 1
         2. Si desea ir al Rectorado, PRESIONE 2
-        3. Si desea ir al laboratorio, PRESIONE 3
+        3. Si desea ir a la Puerta, PRESIONE 3
         ''').upper()
 
         while dirigirse.upper() != '1' and dirigirse.upper() != '2' and dirigirse.upper() != '3':
@@ -327,39 +350,31 @@ def rectorado():
         ¿A donde quieres dirigirte?:
         1. Si desea ir a la Biblioteca, PRESIONE 1
         2. Si desea ir al Rectorado, PRESIONE 2
-        3. Si desea ir al laboratorio, PRESIONE 3
+        3. Si desea ir a la Puerta, PRESIONE 3
         ''').upper()
         if dirigirse == '1':
-            biblioteca() #ir a la biblioteca
+            biblioteca(mochila) #ir a la biblioteca
         elif dirigirse == '2':
-            rectorado() #ir a plaza rectorado
+            rectorado(mochila) #ir a plaza rectorado
         else:
-            puerta() #ir a la puerta 
+            puerta(mochila) #ir a la puerta 
 
-def puerta():
+def puerta(mochila):
     print(imagenes.puerta)
     print('¡Estas en la puerta!')
-    dirigirse = input('''
-    PRESIONA:
-    1. Para seguir (laboratorios).
-    2.Para regresar a la biblioteca
-    3.Ir al plano
-    ''').upper()
+    pasillo = Lugar('Pasillo Laboratorios ') #definir el lugar
+    pasillo.cargar_objetos() #definir objetos
+    movimientos = pasillo.obtener_movimientos() #Crear menu para dirigirse a la puerta o al plano
+    dirigirse = input(movimientos).upper() 
     while dirigirse.upper() != '1' and dirigirse.upper() != '2' and dirigirse.upper() != '3' :
-            dirigirse = input('''
-            PRESIONA:
-            1. Para seguir (laboratorios).
-            2.Para regresar (biblioteca)
-            3.Ir al plano
-            ''').upper()
+            dirigirse = input(movimientos).upper()
     if dirigirse == '1':
         requerimiento_puerta = 'martillo'
-        if requerimiento_puerta not in mochila:
+        if requerimiento_puerta not in mochila['premios']:
             print('Está cerrado con candado!!!!!')
-            puerta()
+            puerta(mochila)
         booleana() #ir a la puerta
-    elif dirigirse == '2':
-        biblioteca() #ir a la biblioteca
+        puerta(mochila)
     else:
         print(imagenes.plano)
         dirigirse = input('''
@@ -379,44 +394,38 @@ def puerta():
         4. Si desea ir al Cuarto de servidores, PRESIONE 4
         ''').upper()
         if dirigirse == '1':
-            biblioteca() #ir a la biblioteca
+            biblioteca(mochila) #ir a la biblioteca
         elif dirigirse == '2':
-            rectorado() #ir a plaza rectorado
+            rectorado(mochila) #ir a plaza rectorado
         elif dirigirse == '3':
-            puerta() #ir a la puerta 
+            puerta(mochila) #ir a la puerta 
         else:
-            cuarto_servidores() #ir al cuarto de servidores
+            cuarto_servidores(mochila) #ir al cuarto de servidores
 
-def cuarto_servidores():
+def cuarto_servidores(mochila):
     print(imagenes.cuarto_servidores)
     print('¡Estas en el Cuarto de servidores!')
-    dirigirse = input('''
-    PRESIONA:
-    1. Para ir al rack (izquierda).
-    2.Para ir a la puerta (centro)
-    3. Para ir a la papelera (derecha)
-    4. Ir al plano
-    ''').upper()
-    while dirigirse.upper() != '1' and dirigirse.upper() != '2' and dirigirse.upper() != '3':
-            dirigirse = input('''
-            PRESIONA:
-            1. Para ir al rack (izquierda).
-            2.Para ir a la puerta (centro)
-            3. Para ir a la papelera (derecha)
-            4. Ir al plano
-            ''').upper()
+    cuarto_de_sevidores = Lugar('Cuarto de Servidores ') #definir el lugar
+    cuarto_de_sevidores.cargar_objetos() #definir objetoa
+    movimientos = cuarto_de_sevidores.obtener_movimientos() #crear el menu para dirigirse al rack, puerta o papelera
+    dirigirse = input(movimientos).upper()
+    while dirigirse.upper() != '1' and dirigirse.upper() != '2' and dirigirse.upper() != '3' and dirigirse.upper() != '4':
+        dirigirse = input(movimientos).upper()
     if dirigirse == '1':
-        requerimiento_rack = False
-        palabra_mezclada() #ir al rack
-    elif dirigirse == '2':
         requerimiento_puertalab = 'carnet'
-        if requerimiento_puertalab not in mochila:
+        if requerimiento_puertalab not in mochila['premios']:
             print('Necesitas tener un carnet de trabajador para poder pasar')
-            cuarto_servidores()
-        pass #ir a la puerta 
+            cuarto_servidores(mochila)
+        juegoquizzi(mochila) #ir a la puerta 
+        ganador(mochila)
+    elif dirigirse == '2':
+        requerimiento_rack = False
+        palabra_mezclada(mochila) #ir al rack
+        cuarto_servidores(mochila)
     elif dirigirse == '3':
         requerimiento_papelera = False
-        escoge_numero() #ir a la papelera
+        escoge_numero(mochila) #ir a la papelera
+        cuarto_servidores(mochila)
     else:
         print(imagenes.plano)
         dirigirse = input('''
@@ -436,47 +445,43 @@ def cuarto_servidores():
         4. Si desea ir al Cuarto de servidores, PRESIONE 4
         ''').upper()
         if dirigirse == '1':
-            biblioteca() #ir a la biblioteca
+            biblioteca(mochila) #ir a la biblioteca
         elif dirigirse == '2':
-            rectorado() #ir a plaza rectorado
+            rectorado(mochila) #ir a plaza rectorado
         elif dirigirse == '3':
-            puerta() #ir a la puerta 
+            laboratorio(mochila) #ir a la puerta 
         else:
-            cuarto_servidores() #ir al cuarto de servidores
+            cuarto_servidores(mochila) #ir al cuarto de servidores
 
-def laboratorio():
+def laboratorio(mochila):
     print(imagenes.laboratorio)
     print('¡Estas en el laboratorio!')
-    dirigirse = input('''
-    PRESIONA:
-    1. Para ir a la computadora 1 (izquierda).
-    2.Para ir a la pizarra (centro)
-    3. Para ir a computadora 2 (derecha)
-    4. Ir al plano
-    ''').upper()
-    while dirigirse.upper() != '1' and dirigirse.upper() != '2' and dirigirse.upper() != '3':
-            dirigirse = input('''
-            PRESIONA:
-            1. Para ir a la computadora 1 (izquierda).
-            2.Para ir a la pizarra (centro)
-            3. Para ir a computadora 2 (derecha)
-            4. Ir al plano
-            ''').upper()
+    laboratorio_sl = Lugar('Laboratorio SL001') 
+    laboratorio_sl.cargar_objetos() #definicion de objetos
+    movimientos = laboratorio_sl.obtener_movimientos() #crear menu, para dirigirse a las computadoras o a la pizzara
+    dirigirse = input(movimientos).upper() 
+    while dirigirse.upper() != '1' and dirigirse.upper() != '2' and dirigirse.upper() != '3' and dirigirse.upper() != '4':
+        dirigirse = input(movimientos).upper()
     if dirigirse == '1':
-        requerimiento_compu1 = 'cable HDMI'
-        if requerimiento_compu1 is not mochila:
-            print('Mi pantalla no funciona')
-            laboratorio()
-        python() #ir a computadora 1
-    elif dirigirse == '2':
         requerimiento_pizarra = False
-        pizarra() #ir a la pizarra
+        matriz(mochila) #ir a la pizarra
+        laboratorio(mochila)
+    elif dirigirse == '2':
+        requerimiento_compu1 = 'cable HDMI'
+        if requerimiento_compu1 is not mochila['premios']:
+            print('Mi pantalla no funciona')
+            laboratorio(mochila)
+        else:
+            python(mochila) #ir a computadora 1
+            laboratorio(mochila)
+
     elif dirigirse == '3':
         requerimiento_compu2 = 'contraseña'
-        if requerimiento_compu2 not in mochila:
+        if requerimiento_compu2 not in mochila['premios']:
             print('necesita contraseña para ingresar')
-            laboratorio()
-        adivinanzas() #ir a la computadora 2
+            laboratorio(mochila)
+        adivinanzas(mochila) #ir a la computadora 2
+        laboratorio(mochila)
     else:
         print(imagenes.plano)
         dirigirse = input('''
@@ -496,16 +501,58 @@ def laboratorio():
         4. Si desea ir al Cuarto de servidores, PRESIONE 4
         ''').upper()
         if dirigirse == '1':
-            biblioteca() #ir a la biblioteca
+            biblioteca(mochila) #ir a la biblioteca
         elif dirigirse == '2':
-            rectorado() #ir a plaza rectorado
+            rectorado(mochila) #ir a plaza rectorado
         elif dirigirse == '3':
-            puerta() #ir a la puerta 
+            laboratorio(mochila) #ir a la puerta 
         else:
-            cuarto_servidores() #ir al cuarto de servidores
+            cuarto_servidores(mochila) #ir al cuarto de servidores
 
+
+def ganador(mochila, tiempo_inicial):
+    tiempo = (time.time() - tiempo_inicial/60)
+    jugador.guardar_record(tiempo)
+    print(f'''
+           ¡Felicidades! Has logrado evitar una catástrofe en la Unimet,
+                muchas gracias por tu apoyo, sin ti no lo hubiesemos
+                        logrado, lo hiciste en un tiempo 
+                           de {tiempo} minutos
+    ''')
 def estadisticas():
-    pass
+    #jugador = obtener_jugador()
+    print('''
+                ESTADISTICAS DE JUEGO ESCAPAMET
+    ''')
+    menu1 = True 
+    while menu1:
+        print('''
+        1. Los mejores records
+        2. Cuartos mas visitados por los jugadores
+        3. Jugadores que mas juegan ESCAPAMET
+        ''')
+        opcion1 = int(input('Seleccione una opcion 1, 2, 3 o 4: '))
+        if opcion1 == 1:
+            records=mejores_records()
+            records.sort()
+            print(records)
+            
+          
+        elif opcion1 == 2:
+            print('''
+            Los cuartos mas visitados de ESCAPAMET son la biblioteca,
+                                y Plaza rectorado
+            ''')
+ 
+        elif opcion1 == 3:
+            print('''
+            Los jugadores que mas juegan ESCAPAMET son:
+            ''')
+            print(usuarios['usuario', 'partidas'])
+            
+        else:
+            print('Seleccione una opccion correcta') 
+    
 
 def main():
     print('BIENVENDO A ESCAPAMET')
@@ -517,22 +564,27 @@ def main():
         3. Ver instrucciones de juego
         4. Estadisticas de juego
         ''')
-        opcion = int(input('Seleccione una opcion 1, 2 o 3: '))
+        opcion = int(input('Seleccione una opcion 1, 2, 3 o 4: '))
         if opcion == 1:
            # registro() 
-            jugador = Jugador()
-            jugador.registro()
+            jugador = Jugador() #clase jugador
+            jugador.registro() #registrar jugador
             print(jugador.nombre)
             menu = False
           
         elif opcion == 2:
-            empezar_juego()
+            empezar_juego() #funcion que inicia el juego
  
         elif opcion == 3:
-            leer_instrucciones()
+            print(instrucciones.manual)
+            ir_menu = input('PRESIONE (>) PARA JUGAR') 
+
         elif opcion == 4:
             estadisticas()
+            #ganador(mochila, tiempo_inicial)
+            
+
         else:
-            print('Seleccione una opccion correcta')
+            print('Seleccione una opccion correcta') 
   
 main()  

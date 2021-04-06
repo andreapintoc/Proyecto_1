@@ -1,7 +1,7 @@
 #juego logica booleana
 import random
 a, b = False, True
-def booleano1():
+def booleano1(mochila):
    out = (a and b and not a) or (not b) or (b and a) or (a and not a and not b) 
    print('''
    ¿Cuál es el valor de out de la siguiente lógica?
@@ -16,7 +16,7 @@ def booleano1():
        vidas -= 1/2
        print('Incorrecto pierdes media vida, llevas {vidas} vidas')
 
-def booleano2():
+def booleano2(mochila):
     out = (a and b and a) or (b) or (b or a) or (a and not a and not b)
     print('''
     ¿Cuál es el valor de out de la siguiente lógica?
@@ -31,7 +31,7 @@ def booleano2():
        vidas -= 1/2
        print(f'Incorrecto pierdes media vida, llevas {vidas} vidas')
 
-def booleana():
+def booleana(mochila):
     print('''
     ¡Estas en la puerta!
     Para conseguir el libro de fisica, debes contestar las
@@ -55,7 +55,7 @@ def booleana():
     elegirr= str(elegirr)
     print(elegirr)
     if elegirr == 1:
-        booleano1()
+        booleano1(mochila)
     else:
-        booleano2()
+        booleano2(mochila)
 

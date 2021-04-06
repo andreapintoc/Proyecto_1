@@ -1,6 +1,6 @@
 import random
 
-def escoge_numero():
+def escoge_numero(mochila):
     intentos = 0
     num_max = 15
     num_min = 1

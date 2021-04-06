@@ -1,40 +1,39 @@
 
 
-def python1():
+def python1(mochila):
     pregunta1 = eval(input('Tengo el siguiente string: frase  = \"tengo en mi cuenta 50,00 $\". Escribe en una línea de código como extraer de este string los 50 en formato entero'))
     print(pregunta1)
     if pregunta1 == '50.00':
         print('Respuesta correcta')
         premio_compu1 = 'carnet'
-        mochila.append(premio_compu1)
+        mochila['premio'].append(premio_compu1)
     else:
         print('Respuesta Incorrecta')
         print('pista: "utiliza replace", "utiliza split", "utiliza int"')
-        return pregunta1
+        mochila['vidas'] -= 1/2
+    print(f'Tines un total de {mochila["vidas"]} vidas')
 
-def python2():
+def python2(mochila):
     pregunta2 = eval(input("Invierte este string con python en un línea  para poder leerlo frase = \"oidutse ne al ortem aireinegni ed sametsis\""))
     print(pregunta2)
     if pregunta1 == 'estudio en a metro ingenieria en sistemas':
         print('Respuesta correcta')
-        mochila.append(premio_compu1)
+        mochila['premio'].append(premio_compu1)
     else:
         print('Respuesta Incorrecta')
-        print('utiliza slices')
-        return pregunta2
-
-
-
-#hola = '355.157'
-#user_input = eval(input(f'Escribe el codigo en python para cambiar el punto . por , en la siguiente numero: \n (la variable del numero se llama hola) {hola} =>'))
-#print(user_input)
+        print('pista: "utiliza slices"')
+        mochila['vidas'] -= 1/2
+        
+    print(f'Tines un total de {mochila["vidas"]} vidas')
 
 
 
 
 
 
-def python():
+
+
+def python(mochila):
     print('''
     ¡te encuentas en la computadora 1!
     Resuelve las siguientes preguntas python
@@ -51,9 +50,9 @@ def python():
         ''')
         si = input()
 
-    elegir = random.sample(lista,1)
+    elegir = random.randint(1,3)
 
     if elegir == 1:
-        python1()
+        python1(mochila)
     else: 
-        python2()
+        python2(mochila)

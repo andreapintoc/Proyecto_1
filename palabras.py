@@ -1,10 +1,10 @@
 
-vidas = []
-numero_vidas = 5
+
+
 lista = [1,2,3]
 import random
 
-def palabra1():
+def palabra1(mochila):
     print('Las siguientes palabras son de la categoria COCINA')
     #primeras palabras
     sarten = list('sarten')
@@ -15,7 +15,7 @@ def palabra1():
             print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_sarten)
+        mochila['vidas'] -= 1/2
     
     paleta = list('paleta')
     random.shuffle(paleta)
@@ -25,7 +25,7 @@ def palabra1():
         print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_paleta)
+        mochila['vidas'] -= 1/2
     
     olla = list('olla')
     random.shuffle(olla)
@@ -35,7 +35,11 @@ def palabra1():
         print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_olla)
+        mochila['vidas'] -= 1/2
+        
+    
+    if total < -1:
+        print('Usted, ha pedido debido a que tiene ' +  mochila['vidas']  + ' de vidas')
     
     vaso = list('vaso')
     random.shuffle(vaso)
@@ -45,8 +49,8 @@ def palabra1():
         print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_vaso)
-    
+        mochila['vidas'] -= 1/2
+
     hornilla = list('hornilla')
     random.shuffle(hornilla)
     print (''.join(hornilla))
@@ -56,18 +60,18 @@ def palabra1():
     else:
         print('respuesta incorrecta, haz perdido media vida')
         vidas.append(respuesta_hornilla)
-    numero_vidas= int(numero_vidas)
-    vidas1 = len(vidas)
-    total = numero_vidas - vidas1
+    
+        mochila['vidas'] -= 1/2
+    print(f'Te quedan {mochila["vidas"]} vidas')
     
     if total < -1:
-        print('Usted, ha pedido debido a que tiene ' + str(total) + ' de vidas')
+        print('Usted, ha pedido debido a que tiene ' +  mochila['vidas']  + ' de vidas')
     else:
-        print('Buen trabajo, ha ganado la contraseña, tiene un total de ' + str(total) + ' vidas')
+        print('Buen trabajo, ha ganado la contraseña, tiene un total de ' + mochila['vidas'] + ' vidas')
 
 #segundas palabras
 
-def palabra2():
+def palabra2(mochila):
     print('Las siguientes palabras son de la categoria BAÑO')
     
     poceta = list('poceta')
@@ -78,7 +82,7 @@ def palabra2():
             print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_poceta)
+        mochila['vidas'] -= 1/2
     
     cepillo = list('cepillo')
     random.shuffle(cepillo)
@@ -88,7 +92,7 @@ def palabra2():
         print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_cepillo)
+        mochila['vidas'] -= 1/2
     
     afeitadora = list('afeitadora')
     random.shuffle(afeitadora)
@@ -98,7 +102,7 @@ def palabra2():
         print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_afeitadora)
+        mochila['vidas'] -= 1/2
     
     regadera = list('regadera')
     random.shuffle(regadera)
@@ -108,7 +112,7 @@ def palabra2():
         print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_regadera)
+        mochila['vidas'] -= 1/2
     
     grifo = list('grifo')
     random.shuffle(grifo)
@@ -118,19 +122,18 @@ def palabra2():
         print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_grifo)
+        mochila['vidas'] -= 1/2
     
-    numero_vidas= int(numero_vidas)
-    vidas1 = len(vidas)
-    total = numero_vidas - vidas1
+        mochila['vidas'] -= 1/2
+    print(f'Te quedan {mochila["vidas"]} vidas')
     
     if total < -1:
-        print('Usted, ha pedido debido a que tiene ' + str(total) + ' de vidas')
+        print('Usted, ha pedido debido a que tiene ' +  mochila['vidas']  + ' de vidas')
     else:
-        print('Buen trabajo, ha ganado la contraseña, tiene un total de ' + str(total) + ' vidas')
+        print('Buen trabajo, ha ganado la contraseña, tiene un total de ' + mochila["vidas"] + ' vidas')
 
 #tercera palabra
-def palabra3():
+def palabra3(mochila):
     print('Las siguientes palabras son de la categoria BAILE')
     
     zumba = list('zumba')
@@ -141,7 +144,7 @@ def palabra3():
             print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_zumba)
+        mochila['vidas'] -= 1/2
     
     salsa = list('salsa')
     random.shuffle(salsa)
@@ -151,7 +154,7 @@ def palabra3():
         print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_salsa)
+        mochila['vidas'] -= 1/2
     
     flamengo = list('flamengo')
     random.shuffle(flamengo)
@@ -161,7 +164,7 @@ def palabra3():
         print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_flamengo)
+        mochila['vidas'] -= 1/2
     
     tango = list('tango')
     random.shuffle(tango)
@@ -171,7 +174,7 @@ def palabra3():
         print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_tango)
+        mochila['vidas'] -= 1/2
     
     perreo = list('perreo')
     random.shuffle(perreo)
@@ -181,23 +184,22 @@ def palabra3():
         print('¡Buen trabajo, respuesta correcta!')
     else:
         print('respuesta incorrecta, haz perdido media vida')
-        vidas.append(respuesta_perreo)
+        mochila['vidas'] -= 1/2
         
-    numero_vidas= int(numero_vidas)
-    vidas1 = len(vidas)
-    total = numero_vidas - vidas1
+        mochila['vidas'] -= 1/2
+    print(f'Te quedan {mochila["vidas"]} vidas')
     
     if total < -1:
-        print('Usted, ha pedido debido a que tiene ' + str(total) + ' de vidas')
+        print('Usted, ha pedido debido a que tiene ' +  mochila['vidas']  + ' de vidas')
     else:
-        print('Buen trabajo, ha ganado la contraseña, tiene un total de ' + str(total) + ' vidas')
+        print('Buen trabajo, ha ganado la contraseña, tiene un total de ' + mochila['vidas'] + ' vidas')
     
 
 
 
 
 
-def palabra_mezclada():
+def palabra_mezclada(mochila):
     print('''
     ¡Estas en el rack!
     Para conseguir la contraseña debes ordenar las siguientes palabras
@@ -215,9 +217,9 @@ def palabra_mezclada():
     elegir = random.randint(1,3)
  
     if elegir == 1:
-        palabra1()
+        palabra1(mochila)
     elif elegir == 2:
-        palabra2()
+        palabra2(mochila)
     elif elegir == 3:
-        palabra3()
+        palabra3(mochila)
 

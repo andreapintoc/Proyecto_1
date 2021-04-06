@@ -24,7 +24,16 @@
             "clave": "22222222",
             "avatar": "3",
             "record": 0,
-            "partidas": 5
+            "partidas": 6
+        },
+        {
+            "nombre": "andreapinto",
+            "edad": "20",
+            "usuario": "andreapinto",
+            "clave": "33333333",
+            "avatar": "5",
+            "record": 0,
+            "partidas": 24
         }
     ]
 }

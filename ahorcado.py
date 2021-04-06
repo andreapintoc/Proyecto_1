@@ -51,13 +51,20 @@ AHORCADO = ['''
           |
     =========''']
 palabras = 'metromix rectorado piscina'.split()
+
  
-def buscarPalabraAleat(listaPalabras):
+def buscarPalabraAleat(listaPalabras, mochila):
     # Esta funcion retorna una palabra aleatoria.
     palabraAleatoria = random.randint(0, len(listaPalabras) - 1)
+    if palabraAleatoria == 'metromix':
+        print('Me encuentro en la entrada de la Universidad')
+    elif palabraAleatoria == 'rectorado':
+        print('Tienes que subir muchos pisos para llegar a mi')
+    elif palabraAleatoria == 'piscina':
+        print('Me buscan y nunca me encuentran en la Universidad')
     return listaPalabras[palabraAleatoria]
  
-def displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta):
+def displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta, mochila):
     print(AHORCADO[len(letraIncorrecta)])
     print ("")
     fin = " "
@@ -73,7 +80,7 @@ def displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta):
         print (letra, fin)
     print ("")
  
-def elijeLetra(algunaLetra):
+def elijeLetra(algunaLetra, mochila):
     # Devuelve la letra que el jugador ingreso. Esta función hace que el jugador ingrese una letra y no cualquier otra cosa
     while True:
         print ('Adivina una letra:')
@@ -88,15 +95,13 @@ def elijeLetra(algunaLetra):
         else:
             return letra
  
-def empezar():
-    # Esta funcion devuelve True si el jugador quiere volver a jugar, de lo contrario devuelve False
+def continuar(mochila):
     print('Presiona > para continuar')
     presiona = input()
-    #print ('Quieres jugar de nuevo? (Si o No)')
-    #return input().lower().startswith('>')
+    biblioteca()
  
 
-def ahorcado():
+def ahorcado(mochila):
     print('''
     ¡Estas en la mueble de libros!
     Para conseguir el cable HDMI debes encontrar
@@ -132,20 +137,20 @@ def ahorcado():
             if letrasEncontradas:
                 print ('¡Muy bien! La palabra secreta es "' + palabraSecreta + '"! ¡Has ganado!')
                 premio_estante = 'cable HDMI'
-                mochila.append(premio_estante)
+                mochila['premio'].append(premio_estante)
                 finJuego = True
         else:
             letraIncorrecta = letraIncorrecta + letra
-            vidas = len(letraIncorrecta) - 1/4
+            mochila["vidas"] -= - 1/4
             # Comprueba la cantidad de letras que ha ingresado el jugador y si perdió
             if len(letraIncorrecta) == len(AHORCADO) - 1:
                 displayBoard(AHORCADO, letraIncorrecta, letraCorrecta, palabraSecreta)
                 print ('¡Se ha quedado sin letras!\nDespues de ' + str(len(letraIncorrecta)) + ' letras erroneas y ' + str(len(letraCorrecta)) + ' letras correctas, la palabra era "' + palabraSecreta + '"')
-                print(f'Te quedan {vidas} vidas')
+                print(f'Te quedan {mochila["vidas"]} vidas')
                 finJuego = True
         # Pregunta al jugador si quiere jugar de nuevo
         if finJuego:
-            if empezar():
+            if continuar(mochila):
                 letraIncorrecta = ""
                 letraCorrecta = ""
                 finJuego = False
